@@ -35,11 +35,15 @@ namespace wfaPaint
             panel4.Click += (s, e) => myPen.Color = panel4.BackColor;
             panel5.Click += (s, e) => myPen.Color = panel5.BackColor;
 
-            button1.Click += (s, e) => myDrawMode = MyDrawMode.Pencil;
-            button2.Click += (s, e) => myDrawMode = MyDrawMode.Line;
-            button3.Click += (s, e) => myDrawMode = MyDrawMode.Ellipse;
-            button4.Click += (s, e) => myDrawMode = MyDrawMode.Rectangle;
-            button5.Click += (s, e) => myDrawMode = MyDrawMode.Triangle;
+            buSelectPencil.Click += (s, e) => myDrawMode = MyDrawMode.Pencil;
+            buSelectLine.Click += (s, e) => myDrawMode = MyDrawMode.Line;
+            buSelectElipse.Click += (s, e) => myDrawMode = MyDrawMode.Ellipse;
+            buSelectRectangle.Click += (s, e) => myDrawMode = MyDrawMode.Rectangle;
+            buSelectTriangle.Click += (s, e) => myDrawMode = MyDrawMode.Triangle;
+            buSaveAsToFile.Click += BuSaveAsToFile_Click;
+            buLoadFromFile.Click += BuLoadFromFile_Click;
+
+            buNewImage.Click += BuNewImage_Click;
 
             trPenWidth.Minimum = 1;
             trPenWidth.Maximum = 12;
@@ -50,6 +54,40 @@ namespace wfaPaint
             pxImage.MouseMove += PxImage_MouseMove;
             pxImage.MouseUp += PxImage_MouseUp;
             pxImage.Paint += (s, e) => e.Graphics.DrawImage(b, 0, 0);
+        }
+
+        private void BuNewImage_Click(object? sender, EventArgs e)
+        {
+            g.Dispose();
+            b.Dispose();
+            b = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            g = Graphics.FromImage(b);
+            pxImage.Invalidate();
+        }
+
+        private void BuSaveAsToFile_Click(object? sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new();
+            dialog.Filter = "PNG Files(*.PNG)|*.PNG";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                b.Save(dialog.FileName);
+            }
+        }
+
+        private void BuLoadFromFile_Click(object? sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new();
+            dialog.Filter = "PNG Files(*.PNG)|*.PNG";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                g.Dispose();
+                b.Dispose();
+                b = (Bitmap)Bitmap.FromFile(dialog.FileName);
+                g = Graphics.FromImage(b);
+                pxImage.Invalidate();
+
+            }
         }
 
         private void Button1_Click(object? sender, EventArgs e)
@@ -81,11 +119,24 @@ namespace wfaPaint
                         break;
                     case MyDrawMode.Ellipse:
                         RestoreBitmap();
-                        //..
+                        g.DrawEllipse(myPen, startLocation.X, startLocation.Y,
+                            e.Location.X - startLocation.X, e.Location.Y - startLocation.Y);
                         break;
                     case MyDrawMode.Rectangle:
+                        RestoreBitmap();
+                        g.DrawRectangle(myPen, startLocation.X, startLocation.Y,
+                            e.Location.X - startLocation.X, e.Location.Y - startLocation.Y);
+                        // TODO HW: реализовать рисование прямоугольника
                         break;
                     case MyDrawMode.Triangle:
+                        RestoreBitmap();
+                        var w = e.Location.X - startLocation.X;
+                        var h = e.Location.Y - startLocation.Y;
+                        var xy1 = new Point(startLocation.X + w / 2, startLocation.Y);
+                        var xy2 = new Point(startLocation.X + w, startLocation.Y + h);
+                        var xy3 = new Point(startLocation.X, startLocation.Y + h);
+                        g.DrawPolygon(myPen, [xy1, xy2, xy3]);
+                        // TODO HW: сделать как в пейнте
                         break;
                     default:
                         break;
@@ -113,6 +164,14 @@ namespace wfaPaint
             bb = (Bitmap)b.Clone();
         }
 
-      
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
