@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wfaTrainerAccount", "wfaTrainerAccount\wfaTrainerAccount.csproj", "{AB097B39-8AF5-4BAD-8ECD-2FB3D8C54382}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "myCore", "myCore\myCore.csproj", "{E837EBCA-C311-4DCB-862A-AAB7CD663DA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cnsTrainerAccount", "cnsTrainerAccount\cnsTrainerAccount.csproj", "{9370DEAC-BCA1-488B-AB0C-D8A3FFDEFA62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB097B39-8AF5-4BAD-8ECD-2FB3D8C54382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB097B39-8AF5-4BAD-8ECD-2FB3D8C54382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB097B39-8AF5-4BAD-8ECD-2FB3D8C54382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB097B39-8AF5-4BAD-8ECD-2FB3D8C54382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E837EBCA-C311-4DCB-862A-AAB7CD663DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E837EBCA-C311-4DCB-862A-AAB7CD663DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E837EBCA-C311-4DCB-862A-AAB7CD663DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E837EBCA-C311-4DCB-862A-AAB7CD663DA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9370DEAC-BCA1-488B-AB0C-D8A3FFDEFA62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9370DEAC-BCA1-488B-AB0C-D8A3FFDEFA62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9370DEAC-BCA1-488B-AB0C-D8A3FFDEFA62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9370DEAC-BCA1-488B-AB0C-D8A3FFDEFA62}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
