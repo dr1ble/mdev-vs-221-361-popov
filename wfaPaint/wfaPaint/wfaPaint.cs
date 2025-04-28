@@ -1,25 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace wfaPaint
 {
     public partial class wfaPaint : Form
     {
-        private enum MyDrawMode
-        {
-            Pencil,
-            Line,
-            Ellipse,
-            Rectangle,
-            Triangle,
-            Arrow,
-            Star,
-            Hexagon,
-            Select
-        }
-
         private DrawingManager drawingManager;
         private DrawingModeManager drawingModeManager;
         private ClipboardManager clipboardManager;
@@ -27,14 +13,7 @@ namespace wfaPaint
         private ImageInfoManager imageInfoManager;
 
         private Point startLocation;
-        private MyDrawMode drawMode = MyDrawMode.Pencil;
         private bool isDrawing = false;
-        private Point dragOffset; // смещение курсора относительно угла выделенной области
-
-
-        private Rectangle? selectedArea = null;
-        private Bitmap? selectedBitmap = null;
-        private bool isDragging = false;
 
         public wfaPaint()
         {
@@ -86,11 +65,11 @@ namespace wfaPaint
         }
 
         private void PxImage_Paint(object? sender, PaintEventArgs e)
-            {
-                e.Graphics.DrawImage(drawingManager.Bitmap, 0, 0);
+        {
+            e.Graphics.DrawImage(drawingManager.Bitmap, 0, 0);
 
             if (drawingModeManager.CurrentMode == DrawingModeManager.MyDrawMode.Select && selectionManager.HasSelection)
-                {
+            {
                 if (selectionManager.SelectedBitmap != null)
                 {
                     e.Graphics.DrawImage(selectionManager.SelectedBitmap, selectionManager.SelectedArea);
@@ -98,7 +77,7 @@ namespace wfaPaint
 
                 using Pen dashed = new(Color.Black) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash };
                 e.Graphics.DrawRectangle(dashed, selectionManager.SelectedArea);
-        }
+            }
         }
 
         private void BuNewImage_Click(object? sender, EventArgs e)
@@ -142,7 +121,7 @@ namespace wfaPaint
             }
 
             if (drawingModeManager.CurrentMode == DrawingModeManager.MyDrawMode.Select)
-                {
+            {
                 if (selectionManager.HasSelection && selectionManager.SelectedArea.Contains(e.Location))
                 {
                     selectionManager.StartDragging(e.Location);
@@ -153,7 +132,7 @@ namespace wfaPaint
                     isDrawing = true;
                     selectionManager.StartSelection(e.Location);
                     drawingManager.BackupImage();
-            }
+                }
             }
             else
             {
@@ -162,7 +141,6 @@ namespace wfaPaint
                 drawingManager.BackupImage();
             }
         }
-
 
         private void PxImage_MouseMove(object? sender, MouseEventArgs e)
         {
@@ -175,74 +153,46 @@ namespace wfaPaint
                 if (selectionManager.IsDragging)
                 {
                     selectionManager.DragTo(e.Location);
-                pxImage.Invalidate();
-                return;
-            }
+                    pxImage.Invalidate();
+                }
                 else if (isDrawing)
                 {
                     selectionManager.UpdateSelection(drawingManager, e.Location);
                     pxImage.Invalidate();
                 }
-
-                pxImage.Invalidate();
             }
-
             else
             {
                 if (!isDrawing) return;
 
                 if (drawingModeManager.CurrentMode != DrawingModeManager.MyDrawMode.Pencil)
-                drawingManager.RestoreBackup();
+                    drawingManager.RestoreBackup();
 
                 FigureDrawer.DrawFigure(drawingManager.Graphics, drawingManager.Pen, drawingModeManager.CurrentMode, startLocation, e.Location);
 
                 if (drawingModeManager.CurrentMode == DrawingModeManager.MyDrawMode.Pencil)
-                        startLocation = e.Location;
-                        break;
-                    case MyDrawMode.Line:
-                        FigureDrawer.DrawLine(drawingManager.Graphics, drawingManager.Pen, startLocation, e.Location);
-                        break;
-                    case MyDrawMode.Ellipse:
-                        FigureDrawer.DrawEllipse(drawingManager.Graphics, drawingManager.Pen, startLocation, e.Location);
-                        break;
-                    case MyDrawMode.Rectangle:
-                        FigureDrawer.DrawRectangle(drawingManager.Graphics, drawingManager.Pen, startLocation, e.Location);
-                        break;
-                    case MyDrawMode.Triangle:
-                        FigureDrawer.DrawTriangle(drawingManager.Graphics, drawingManager.Pen, startLocation, e.Location);
-                        break;
-                    case MyDrawMode.Arrow:
-                        FigureDrawer.DrawArrow(drawingManager.Graphics, drawingManager.Pen, startLocation, e.Location);
-                        break;
-                    case MyDrawMode.Star:
-                        FigureDrawer.DrawStar(drawingManager.Graphics, drawingManager.Pen, startLocation, e.Location);
-                        break;
-                    case MyDrawMode.Hexagon:
-                        FigureDrawer.DrawHexagon(drawingManager.Graphics, drawingManager.Pen, startLocation, e.Location);
-                        break;
-                }
+                    startLocation = e.Location;
 
                 pxImage.Invalidate();
             }
         }
-
 
         private void PxImage_MouseUp(object? sender, MouseEventArgs e)
         {
             if (drawingModeManager.CurrentMode == DrawingModeManager.MyDrawMode.Select)
             {
                 if (selectionManager.IsDragging)
-            {
+                {
                     selectionManager.FinishDragging(drawingManager);
-                pxImage.Invalidate();
-            }
+                    pxImage.Invalidate();
+                }
                 else
                 {
                     isDrawing = false;
                 }
-        }
+            }
             else
-        {
+            {
                 isDrawing = false;
             }
         }
@@ -281,62 +231,5 @@ namespace wfaPaint
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
-
-
-        private void CopySelectionToClipboard()
-        {
-            if (selectedBitmap != null)
-            {
-                Clipboard.SetImage(selectedBitmap);
-            }
-        }
-
-        private void PasteFromClipboard()
-        {
-            try
-            {
-                IDataObject data = Clipboard.GetDataObject();
-                if (data != null && data.GetDataPresent(DataFormats.Bitmap))
-                {
-                    var bitmap = (Bitmap)data.GetData(DataFormats.Bitmap);
-                    if (bitmap == null) return;
-
-                    drawingManager.BackupImage();
-
-                    // Вставить в центр холста
-                    int x = (drawingManager.Bitmap.Width - bitmap.Width) / 2;
-                    int y = (drawingManager.Bitmap.Height - bitmap.Height) / 2;
-
-                    drawingManager.Graphics.DrawImage(bitmap, x, y);
-                    pxImage.Invalidate();
-                }
-                else
-                {
-                    MessageBox.Show("Буфер обмена не содержит изображение", "Вставка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ошибка вставки изображения: " + ex.Message);
-            }
-        }
-
-
-
-        private void DeleteSelection()
-        {
-            if (selectedArea.HasValue)
-            {
-                Rectangle rect = selectedArea.Value;
-                using SolidBrush transparent = new(Color.FromArgb(0, 255, 255, 255));
-                drawingManager.Graphics.FillRectangle(transparent, rect);
-
-                selectedArea = null;
-                selectedBitmap?.Dispose();
-                selectedBitmap = null;
-                pxImage.Invalidate();
-            }
-        }
-
     }
 }
