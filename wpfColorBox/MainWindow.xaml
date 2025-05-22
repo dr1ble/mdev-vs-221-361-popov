@@ -1,0 +1,84 @@
+﻿<Window x:Class="wpfColorBox.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:wpfColorBox"
+        xmlns:core="clr-namespace:ColorBox.Core;assembly=ColorBox.Core"
+        mc:Ignorable="d"
+        Title="Игра «Цветовод» - WPF" Height="600" Width="800"
+        Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <local:ShapeToVisibilityConverter x:Key="ShapeToVisibilityConverter"/>
+        <local:GameColorToBrushConverter x:Key="GameColorToBrushConverter"/>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Статус -->
+            <RowDefinition Height="*"/>
+            <!-- Игровое поле -->
+            <RowDefinition Height="Auto"/>
+            <!-- Кнопки угадывания -->
+            <RowDefinition Height="Auto"/>
+            <!-- Кнопка "Новая игра" -->
+        </Grid.RowDefinitions>
+
+        <!-- Статус -->
+        <TextBlock Grid.Row="0" x:Name="StatusTextBlock" Text="Загрузка..." FontSize="16" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+        <!-- Игровое поле -->
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="5">
+            <ItemsControl x:Name="GameItemsControl">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" ItemWidth="45" ItemHeight="45"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type core:GameColor}">
+                        <Grid Width="40" Height="40" Margin="2.5">
+                            <Rectangle RadiusX="5" RadiusY="5"
+                                       Fill="{Binding Converter={StaticResource GameColorToBrushConverter}}"
+                                       Visibility="{Binding Shape, Converter={StaticResource ShapeToVisibilityConverter}, ConverterParameter={x:Static core:ShapeType.Square}}"/>
+                            <Ellipse Fill="{Binding Converter={StaticResource GameColorToBrushConverter}}"
+                                     Visibility="{Binding Shape, Converter={StaticResource ShapeToVisibilityConverter}, ConverterParameter={x:Static core:ShapeType.Circle}}"/>
+                            <Path Data="M 0,20 L 20,0 L 40,20 Z" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"
+                                  Fill="{Binding Converter={StaticResource GameColorToBrushConverter}}"
+                                  Visibility="{Binding Shape, Converter={StaticResource ShapeToVisibilityConverter}, ConverterParameter={x:Static core:ShapeType.Triangle}}"/>
+                            <Path Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" Width="35" Height="35"
+                                  Fill="{Binding Converter={StaticResource GameColorToBrushConverter}}"
+                                  Visibility="{Binding Shape, Converter={StaticResource ShapeToVisibilityConverter}, ConverterParameter={x:Static core:ShapeType.Star}}">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure IsClosed="True" StartPoint="20,0">
+                                            <LineSegment Point="25.877,14.123"/>
+                                            <LineSegment Point="40,14.123"/>
+                                            <LineSegment Point="28.82,22.877"/>
+                                            <LineSegment Point="32.36,37.022"/>
+                                            <LineSegment Point="20,28"/>
+                                            <LineSegment Point="7.64,37.022"/>
+                                            <LineSegment Point="11.18,22.877"/>
+                                            <LineSegment Point="0,14.123"/>
+                                            <LineSegment Point="14.123,14.123"/>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <!-- Кнопки угадывания (контейнер) -->
+        <StackPanel Grid.Row="2" x:Name="GuessButtonsPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+
+        <!-- Кнопка "Новая игра" -->
+        <Button Grid.Row="3" x:Name="NewLevelButton" Content="Новый Уровень"
+                HorizontalAlignment="Center" MinWidth="120" Height="35" Margin="0,15,0,0"
+                Click="NewLevelButton_Click"/>
+    </Grid>
+</Window>

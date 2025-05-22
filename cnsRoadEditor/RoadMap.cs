@@ -554,7 +554,6 @@ namespace cnsRoadEditor
             {
                 Console.WriteLine($"Ошибка при генерации карты спрайтов изображений: {ex.Message}");
                 Console.WriteLine($"Проверьте путь к спрайт-листу: {fullSpriteSheetPath}");
-                Console.WriteLine("Убедитесь, что файл спрайт-листа существует и System.Drawing.Common (NuGet) подключен и настроен для вашей ОС (для Linux/macOS может потребоваться libgdiplus).");
             }
         }
     }
