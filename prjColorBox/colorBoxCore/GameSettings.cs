@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace ColorBox.Core
+﻿namespace ColorBox.Core
 {
     public class GameSettings
     {

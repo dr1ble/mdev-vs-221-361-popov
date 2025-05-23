@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ColorBox.Core
+﻿namespace ColorBox.Core
 {
     public class GameColor
     {
