@@ -4,81 +4,70 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfColorBox"
-        xmlns:core="clr-namespace:ColorBox.Core;assembly=ColorBox.Core"
         mc:Ignorable="d"
-        Title="Игра «Цветовод» - WPF" Height="600" Width="800"
-        Loaded="Window_Loaded">
-
+        Title="Цветовод - WPF" Height="700" Width="850" MinHeight="550" MinWidth="700">
     <Window.Resources>
-        <local:ShapeToVisibilityConverter x:Key="ShapeToVisibilityConverter"/>
-        <local:GameColorToBrushConverter x:Key="GameColorToBrushConverter"/>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
-
     <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <!-- Сетка цветов (основное пространство) -->
+            <RowDefinition Height="Auto"/>
+            <!-- Кнопки выбора -->
             <RowDefinition Height="Auto"/>
             <!-- Статус -->
-            <RowDefinition Height="*"/>
-            <!-- Игровое поле -->
             <RowDefinition Height="Auto"/>
-            <!-- Кнопки угадывания -->
-            <RowDefinition Height="Auto"/>
-            <!-- Кнопка "Новая игра" -->
+            <!-- Кнопка Старт/Рестарт -->
         </Grid.RowDefinitions>
 
-        <!-- Статус -->
-        <TextBlock Grid.Row="0" x:Name="StatusTextBlock" Text="Загрузка..." FontSize="16" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-
-        <!-- Игровое поле -->
-        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="5">
-            <ItemsControl x:Name="GameItemsControl">
+        <!-- Панель с цветными ячейками -->
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="1" 
+                HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Margin="0,0,0,10">
+            <ItemsControl x:Name="GameGridItemsControl">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" ItemWidth="45" ItemHeight="45"/>
+                        <UniformGrid x:Name="GameUniformGrid" Rows="0" Columns="0"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type core:GameColor}">
-                        <Grid Width="40" Height="40" Margin="2.5">
-                            <Rectangle RadiusX="5" RadiusY="5"
-                                       Fill="{Binding Converter={StaticResource GameColorToBrushConverter}}"
-                                       Visibility="{Binding Shape, Converter={StaticResource ShapeToVisibilityConverter}, ConverterParameter={x:Static core:ShapeType.Square}}"/>
-                            <Ellipse Fill="{Binding Converter={StaticResource GameColorToBrushConverter}}"
-                                     Visibility="{Binding Shape, Converter={StaticResource ShapeToVisibilityConverter}, ConverterParameter={x:Static core:ShapeType.Circle}}"/>
-                            <Path Data="M 0,20 L 20,0 L 40,20 Z" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"
-                                  Fill="{Binding Converter={StaticResource GameColorToBrushConverter}}"
-                                  Visibility="{Binding Shape, Converter={StaticResource ShapeToVisibilityConverter}, ConverterParameter={x:Static core:ShapeType.Triangle}}"/>
-                            <Path Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" Width="35" Height="35"
-                                  Fill="{Binding Converter={StaticResource GameColorToBrushConverter}}"
-                                  Visibility="{Binding Shape, Converter={StaticResource ShapeToVisibilityConverter}, ConverterParameter={x:Static core:ShapeType.Star}}">
-                                <Path.Data>
-                                    <PathGeometry>
-                                        <PathFigure IsClosed="True" StartPoint="20,0">
-                                            <LineSegment Point="25.877,14.123"/>
-                                            <LineSegment Point="40,14.123"/>
-                                            <LineSegment Point="28.82,22.877"/>
-                                            <LineSegment Point="32.36,37.022"/>
-                                            <LineSegment Point="20,28"/>
-                                            <LineSegment Point="7.64,37.022"/>
-                                            <LineSegment Point="11.18,22.877"/>
-                                            <LineSegment Point="0,14.123"/>
-                                            <LineSegment Point="14.123,14.123"/>
-                                        </PathFigure>
-                                    </PathGeometry>
-                                </Path.Data>
-                            </Path>
-                        </Grid>
+                    <DataTemplate>
+                        <Border BorderBrush="DarkGray" BorderThickness="0.5" Margin="1"
+                                Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <!-- ФИКСИРОВАННЫЙ РАЗМЕР ЯЧЕЙКИ -->
+                            <Rectangle Width="70" Height="70" Fill="{Binding BackgroundColor}"/>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Border>
 
-        <!-- Кнопки угадывания (контейнер) -->
-        <StackPanel Grid.Row="2" x:Name="GuessButtonsPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+        <!-- Кнопки выбора цвета -->
+        <ItemsControl x:Name="ColorButtonsItemsControl" Grid.Row="1" Margin="0,10,0,5" HorizontalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Name}" Tag="{Binding ColorId}" 
+                            Background="{Binding UiBrush}" Foreground="{Binding ForegroundBrush}"
+                            Width="100" Height="40" Margin="5" Click="ColorButton_Click"
+                            IsEnabled="{Binding IsEnabled}" Padding="5"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-        <!-- Кнопка "Новая игра" -->
-        <Button Grid.Row="3" x:Name="NewLevelButton" Content="Новый Уровень"
-                HorizontalAlignment="Center" MinWidth="120" Height="35" Margin="0,15,0,0"
-                Click="NewLevelButton_Click"/>
+        <!-- Статус игры -->
+        <TextBlock x:Name="lblStatus" Grid.Row="2" Text="Нажмите 'Начать уровень', чтобы начать." 
+                   FontSize="16" HorizontalAlignment="Center" Margin="0,5,0,10"/>
+
+        <!-- Кнопка Старт/Рестарт -->
+        <Button x:Name="btnStartLevel" Grid.Row="3" Content="Начать уровень" 
+                Width="220" Height="45" FontSize="15" Click="BtnStartLevel_Click"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom" Padding="10,5"/>
     </Grid>
 </Window>

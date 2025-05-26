@@ -3,16 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorBox.Core", "ColorBox.Core.csproj", "{A707FDC7-C682-4024-BDA3-71E00E1A5072}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorBoxCore", "ColorBoxCore.csproj", "{A707FDC7-C682-4024-BDA3-71E00E1A5072}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wfaColorBox", "..\wfaColorBox\wfaColorBox.csproj", "{BCCE1FD5-8D98-4091-92A7-5B2B48DD1D43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wfaColorBox", "..\wfaColorBox1\wfaColorBox.csproj", "{3EB06B18-4786-462C-A9D0-D7138E81E5B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cnsColorBox", "..\cnsColorBox\cnsColorBox.csproj", "{71380696-8BAF-4BE4-B023-8FEE998A96B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cnsColorBox", "..\cnsColorBox\cnsColorBox.csproj", "{860FC5C1-BE1F-4B52-87E3-80F8894C7683}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpfColorBox", "..\wpfColorBox\wpfColorBox.csproj", "{4831E164-BB00-4952-A274-8236455E9FCB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A707FDC7-C682-4024-BDA3-71E00E1A5072} = {A707FDC7-C682-4024-BDA3-71E00E1A5072}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpfColorBox", "..\wpfColorBox\wpfColorBox.csproj", "{9D3ACCF8-4C30-4760-A55E-6ECB26C54BF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,18 +21,18 @@ Global
 		{A707FDC7-C682-4024-BDA3-71E00E1A5072}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A707FDC7-C682-4024-BDA3-71E00E1A5072}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A707FDC7-C682-4024-BDA3-71E00E1A5072}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCCE1FD5-8D98-4091-92A7-5B2B48DD1D43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCCE1FD5-8D98-4091-92A7-5B2B48DD1D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCCE1FD5-8D98-4091-92A7-5B2B48DD1D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCCE1FD5-8D98-4091-92A7-5B2B48DD1D43}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71380696-8BAF-4BE4-B023-8FEE998A96B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71380696-8BAF-4BE4-B023-8FEE998A96B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71380696-8BAF-4BE4-B023-8FEE998A96B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71380696-8BAF-4BE4-B023-8FEE998A96B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4831E164-BB00-4952-A274-8236455E9FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4831E164-BB00-4952-A274-8236455E9FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4831E164-BB00-4952-A274-8236455E9FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4831E164-BB00-4952-A274-8236455E9FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EB06B18-4786-462C-A9D0-D7138E81E5B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EB06B18-4786-462C-A9D0-D7138E81E5B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EB06B18-4786-462C-A9D0-D7138E81E5B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB06B18-4786-462C-A9D0-D7138E81E5B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{860FC5C1-BE1F-4B52-87E3-80F8894C7683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{860FC5C1-BE1F-4B52-87E3-80F8894C7683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{860FC5C1-BE1F-4B52-87E3-80F8894C7683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{860FC5C1-BE1F-4B52-87E3-80F8894C7683}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D3ACCF8-4C30-4760-A55E-6ECB26C54BF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D3ACCF8-4C30-4760-A55E-6ECB26C54BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D3ACCF8-4C30-4760-A55E-6ECB26C54BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D3ACCF8-4C30-4760-A55E-6ECB26C54BF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

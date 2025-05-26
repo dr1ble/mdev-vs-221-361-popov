@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\colorBoxCore\ColorBox.Core.csproj" />
+    <ProjectReference Include="..\colorBoxCore\ColorBoxCore.csproj" />
   </ItemGroup>
 
 </Project>
