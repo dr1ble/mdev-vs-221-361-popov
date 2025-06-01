@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cnsGameFindLock", "cnsGameFindLock\cnsGameFindLock.csproj", "{9E716DE9-78A7-47C8-879A-5220BA1E717E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E716DE9-78A7-47C8-879A-5220BA1E717E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E716DE9-78A7-47C8-879A-5220BA1E717E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E716DE9-78A7-47C8-879A-5220BA1E717E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E716DE9-78A7-47C8-879A-5220BA1E717E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
